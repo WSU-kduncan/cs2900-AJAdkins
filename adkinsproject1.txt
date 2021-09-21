@@ -1,0 +1,62 @@
+# Adam Adkins
+# Project 1
+
+## Part 1 - Building VMs
+
+- Guest VM used: Ubuntu Linux
+- VMM (virtual machine manager / software): VirtualBox
+
+### Setting up a Ubuntu VM on a Windows 10 host
+
+
+1. Downloaded ISO from [https://ubuntu.com/download/desktop](https://ubuntu.com/download/desktop)
+    - Chose the Desktop ISO to have access to a GUI interface (instead of server where terminal only)
+    - Choosing the Desktop edition also allows running of a web browser.  This VM could then be used to demo effects of networking settings by playing with web page access
+2. Install VirtualBox for [Windows hosts](https://download.virtualbox.org/virtualbox/6.1.26/VirtualBox-6.1.26-145957-Win.exe)
+3. Create a new Virtual Machine - basically, determine the RAM and disk space the virtual machine will be allocated
+    - How much disk space?  Fixed or flex? --  The disk space is how much memory the virtual machine will take up on the host machine, this is where all the files will be stored for the virtual machine. I gave it 10GB of memory using the VDI ( VirtualBox Disk Image) file type.
+	The fixed or flex option determines how the host machine will allocate that memory, a flex option will only give the virtual machine the memory it needs now, while the fixed option will automatically allocate the chosen amount on the system even if the virtual machine doesn't use it all. 
+    - How much RAM?  What about your host? -- RAM is mostly determined by the host, my machine has 32GB of ram so i have a lot to play with but if i allocate too much to the virtual machine it leaves none for the host. 
+	I gave about 3GB to the virtual machine, which gives it plenty and also leaves the host computer with enough to run both of the machines. The user also needs to allocate enough of both of the memory to install the OS to the virtual machine
+    - 3D acceleration?  What performance do you need out of your VM?  Do you even have GPU resources to make this really worthwhile? - 3D acceleration will allow the virtual machine to use the host machines CPU or GPU to render some graphics, as to whether or not to use it depends on what the virtual machine will be used for
+	if its mostly Office applications and simple programs there is really no need unless the host system has a powerful CPU or GPU. 
+    - Guest Additions, what are you loosing without it, what would you gain with it, and do you want it? -- Guest additions allows for more connectivity between the host and the virtual machine, allowing for shared folders, and closed connections. With Guest additions the virutal machine can access certain hardware on the host to allow
+	for more functionality like making the virtual machine full screen and shared clipboards. Without guest additions you cant access things like USB drives from the host machine
+4. Install an OS to the Virtual Machine
+    - How to specify which ISO is the install ISO
+    - Maybe (for your notes) any installation tips / tricks you did
+        - Example: messing with partitions
+    - How to detach install ISO once done
+        - This step is needed sometimes.  I'll go with your judgement - 
+
+## Part 2 - Exploring Virtualization
+
+### Exploring Host Disk Usage
+1. Describe where your Guest OS is saved and how much space it takes up -- The guest OS is set up where the files for Virtualbox are for my host computer its under Users then VirtualBox VMs, this holds all the virtual machines files. 
+    - From your configuration above, is this going to expand?
+2. Can you directly access your Guest files from the virtual machine image folder?  Why or why not? -- No, to access files from the virtual machine they need to be in a shared folder. 
+3. Explore the sizes of creating "snapshots" vs. templates / clone.  What do each of these achieve? -- A snapshot is like backing up the current state of the virtual machine, if someone is going to test something on the virtual machine, it is best to take a snapshot so if you were to break it, you can 
+	easily restore it using the snapshot. The template or clone on the other hand is mostly used for installing mulitple virtual machines, someone can set up one virtual machine with all it needs then copy it as a template in order to install it as an other virtual machine. 
+   
+
+### Exploring Guest Networking
+
+- **NOTE** - assume standard out of box networking configuration, that is to say NAT networking
+    - If you find your "out of box experience" is different, note it and explore it
+- Explain your approximate networking configuration for your Host - we talked about the home standard of:
+    - modem from ISP, assigns public IP
+    - router provides DHCP private network.  Devices are connected to your router, which is your gateway
+    - your network requests to sites are routed through your router, which plugs in your public address, requests info from the world, gets the info back, then passes the request back to the device that made it (NAT - Network Address Translation)
+- Explain the network configuration for your Guest
+    - Does your guest have a network accessible address?  For example, can other devices connected to your router get to it? -- The virtual machine connects to the internet using the host machines adapters but first it travels through a virtual NIC and switch, then it hits the host physical
+	adapters and then the connection is the same as a normal connection from the host. THe virtual machine has its own IP address in the range of 10.x.x.x, mine was 10.0.2.2, but they are not accesible on the internet, this is why it has to first travel to the virtual NIC and switch.  
+      
+
+## Part 3 - Networking with Style
+
+- Pick a networking method besides NAT, and see what it does.
+- Document the networking configuration you choose.  -- I chose the Internal Networking, it is made so that virtual machines can only communicate with other machines on that internal network and nobody else. Internal is different than bridged network because the virtual machines
+	have no connection to anything outside the internal network. To test that both machines are on the internal network i just use the ping command, first i ping www.google.com on the virtual machine to ensure first that it has outbound connection. Then after setting up the DHCP,
+	with a lots of trial and error, using commands on the host command line, then switched the virtual machine to internal network udner the network tab to the set up DHCP. Now i have an internal network setup where the virtual machine can not talk to the outside world, i know 
+	because i can now ping my host computer and the host computer can ping the virtual machine but now the virtual machine can't ping the google server anymore.
+
