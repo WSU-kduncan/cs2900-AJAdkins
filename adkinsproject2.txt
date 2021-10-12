@@ -1,0 +1,36 @@
+Adam Adkins - Project 2 - CS 2900 
+
+
+Container Technologies
+	Buildah
+	Podman
+
+How to install
+	I installed both of mine on an Ubuntu system in a VM inside VirtualBox, in the last project is switched my connection from NAT to Internal Network
+	so I had a 10 minute period of scratching my head until i realized I needed to switch the connection back to NAT...duh. So that would be step one for
+	both installs.
+	-Buildah
+	to install Buildah on an Ubuntu system, first i updated everything with "sudo apt-get update"
+	then becasue Buildah is part of the Ubuntu official repository "sudo apt-get install buildah" installs buildah onto the system
+	--Podman
+	podman is installed in the same way "sudo apt-get install podman"
+
+Pulling a container image
+-Buildah
+	to pull an image you use a command "from" - I used "buildah from centos"
+	then to view whatever images you have the command "buildah images" and to see running containers "buildah containers" is used
+buildah also allows you to build your own image
+
+
+Running a container
+
+Iniatilizing differs from running a container in that each process much complete successfully or else it wont start the next one
+to run a container and enter the shell "podman start [container name]" worked for me the container name was registry.centos.org/centos
+to run the same container in detached mode podman supports the flag "-d" which then runs it in detached mode, it basically runs in the background
+
+Logs & Status
+podman logs displays all the logs for whichever container you specify
+a useful command i found to display status was podman pod ps which can dispaly useful information
+
+Stopping a container
+Podman provides all of these commands "podman pause/unpause" "podman start" etc. podman -h will provide the help menus showing all that it does. 
