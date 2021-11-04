@@ -1,0 +1,34 @@
+Adam Adkins
+Project 3
+CS 2900
+
+For this project i will be using the container technologies of Podman and Docker
+
+1. Investigate available mounts
+	Docker - docker has two mount types volumes and bind mounts
+		To use mounts with docker the command 
+			docker run 
+		is used followed by several options, the type of mount, the source of the mount
+		and the destination as well as the ability to decide permissions. 
+	Podman - supports bind, volume, image, tmpfs, and devpts
+		In podman you can mount a filesystem with a command 
+			podman run --mount, type=, source
+		the types can be any of the listed above and the source shows the path to what
+		is going to be mounted, there are several different flags and options that can 
+		go with the mounts such as granting permissions with -ro and -rw
+
+2. Investigate building images for the container engine
+	Docker - Docker has its own build support which can build images from a Dockerfile or from specifiv
+		files
+			docker build 
+			docker image build
+		Docker build is command used to build an image along with several options such as -f which 
+		names the new dockerfile, the path can be specific files on the host system or a URL for a 
+		directory online. 
+	Podman - Podman also has its own build support which can build an image from a specific directory
+		or from a Dockerfile.
+			podman build -f [imagefile]
+			podman image build 
+		there are lots of different options with these commands, the image can be built from
+		a directory with -f
+ 
