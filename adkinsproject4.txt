@@ -1,0 +1,30 @@
+Adam Adkins
+
+Project 4
+
+CS2900 F21
+
+1. Docker - has three networking modes, host which uses the host's networking directly, bridge which is the default
+	mode which connects the containers allowing them to communicate with eachother but not others that are on 
+	the outside of that network, and none which disables the networking all together
+	To start a host network you use the docker run --network host --name [] 
+	To make it have no networking its the same thing except after --network none
+	Using a bridge network requires first to make one with dokcer network create [network name] you can speficy options 
+		then when you docker run --network [name of created bridged network] which connects the containers to the 
+		new network
+
+   Podman - bridge, which works the same as the other bridge networks, host which also uses the hosts networking, Macvlan
+	which gives the container a physical network interface on the host and Slirp4netns which is the default mode
+	which connects the containter to the usermode TCP/IP stack
+	all of these networking options are run on a the container startup with podman run --network [network mode]
+	Macvlan and Bridge networks still need to be made with podman network create before the container can connect
+	to those types of modes
+
+2. I found one call dockerfilelint which analyzes a dokcerfile and looks for common traps, mistakes and helps enforce best
+	practices. It searches a lot of different things, just choosing a few from the long list, Base image should specify a tag,
+	avoid running  "apt-get updgrade" or "apt-get dist-upgrade", implement checking (similar to ADD), formats volumes
+		this lint is on github replicatedhq/dockerfilelint
+
+	I found a scanner named Clair, it scans for all vulnerablities in the Common Vulnerabilities and Exposures which 
+	is a public list of disclosed computer security flaws
+	It has vulnerablilties in that the flaws must be in the CVE list and some only happen under certain conditions 
